@@ -1,5 +1,11 @@
 # SQL2016_BIDSHelper
 
+This is a start of prototyping VS2015 BIDSHelper support,
+including using appveyor for builds and vsixgallery to publish intermediate builds.
+
+Currently does not contain any working things yet.
+
+
 <!-- Replace this badge with your own-->
 [![Build status](https://ci.appveyor.com/api/projects/status/hv6uyc059rqbc6fj?svg=true)](https://ci.appveyor.com/project/madskristensen/extensibilitytools)
 
@@ -29,7 +35,7 @@ Describe feature 2. Add screenshots/code samples etc.
 Describe sub feature. Add screenshots/code samples etc.
 
 ## License
-[Apache 2.0](LICENSE)
+TODO(LICENSE)
 
 ## Contribute
 Check out the [contribution guidelines](CONTRIBUTION.md)
