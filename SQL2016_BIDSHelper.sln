@@ -1,0 +1,29 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25029.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SQL2016_BIDSHelper", "SQL2016_BIDSHelper.csproj", "{BC85491D-1072-4626-95B1-1840E5A906C8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SQL2014_BIDSHelper", "SQL2014_BIDSHelper.csproj", "{36E2A190-24F9-4FA5-B26C-5082B12CED36}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Katmai|Any CPU = Katmai|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{BC85491D-1072-4626-95B1-1840E5A906C8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BC85491D-1072-4626-95B1-1840E5A906C8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BC85491D-1072-4626-95B1-1840E5A906C8}.Katmai|Any CPU.ActiveCfg = Release|Any CPU
+		{BC85491D-1072-4626-95B1-1840E5A906C8}.Katmai|Any CPU.Build.0 = Release|Any CPU
+		{BC85491D-1072-4626-95B1-1840E5A906C8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BC85491D-1072-4626-95B1-1840E5A906C8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{36E2A190-24F9-4FA5-B26C-5082B12CED36}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{36E2A190-24F9-4FA5-B26C-5082B12CED36}.Katmai|Any CPU.ActiveCfg = Katmai|Any CPU
+		{36E2A190-24F9-4FA5-B26C-5082B12CED36}.Release|Any CPU.ActiveCfg = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
