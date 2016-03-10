@@ -25,7 +25,10 @@ namespace BIDSHelper
         private Command pluginCmd;
         static CommandBarPopup toolsCommandBarPopup;
         private DTE2 appObj;
+#if !SQL2016
+// Disable use of AddIn interface in VS2015
         private AddIn addIn;
+#endif
         private Connect addinCore;
         private bool isEnabled;
         private bool isEnabledCached = false;
@@ -36,7 +39,9 @@ namespace BIDSHelper
         {
             addinCore = con;
             appObj = appObject;
+#if !SQL2016
             addIn = addinInstance;
+#endif
             if (Enabled)
             {
                 OnEnable();
@@ -63,7 +68,7 @@ namespace BIDSHelper
             DeleteCommand();
         }
 
-        
+
         public bool Enabled
         {
             get {
@@ -99,7 +104,7 @@ namespace BIDSHelper
                         regKey.Close();
                         OnDisable();
                     }
-                    
+
                 }
             }
         }
@@ -112,8 +117,8 @@ namespace BIDSHelper
 
         public enumIDEMode IdeMode
         {
-            get { 
-                return addinCore.IdeMode; 
+            get {
+                return addinCore.IdeMode;
             }
         }
 
@@ -147,9 +152,11 @@ namespace BIDSHelper
 
                 // this is an empty array for passing into the AddNamedCommand method
                 object[] contextUIGUIDs = null;
-                
+
+#if !SQL2016
+// TODO: AddIn not supported in VS2015
                 cmdTmp = appObj.Commands.AddNamedCommand(
-                            this.addIn, 
+                            this.addIn,
                             this.GetType().Name,
                             this.ButtonText,
                             this.ToolTip,
@@ -157,7 +164,7 @@ namespace BIDSHelper
                             this.Bitmap,
                             ref contextUIGUIDs,
                             (int)vsCommandStatus.vsCommandStatusSupported + (int)vsCommandStatus.vsCommandStatusEnabled);
-
+#endif
                 foreach (string sMenuName in this.MenuName.Split(','))
                 {
                     CommandBar pluginCmdBar = null;
@@ -171,7 +178,7 @@ namespace BIDSHelper
 #if DENALI || SQL2014
                         //in VS2010, performance of cmdBars[sMenuName] is terrible: http://www.mztools.com/articles/2011/MZ2011005.aspx
                         //plus looking up cmdBars["Other Windows"] failsof the ones we're looking for are there
-                        //performs better when you look at the root level of the CommandBars since most 
+                        //performs better when you look at the root level of the CommandBars since most
                         foreach (CommandBar bar in cmdBars)
                         {
                             if (bar.Name == sMenuName)
@@ -207,7 +214,10 @@ namespace BIDSHelper
                         }
 
 
+#if !SQL2016
+//TODO:VS2015 Addin
                         pluginCmd = cmdTmp;
+#endif
 
                         CommandBarButton btn;
                         if (sMenuName == "Tools")
@@ -378,9 +388,9 @@ namespace BIDSHelper
             }
         }
 
-        #endregion
+#endregion
 
-        # region "Public Properties"
+#region "Public Properties"
         /// <summary>
         /// Gets the fully qualified name of the plug-in.
         /// </summary>
@@ -396,14 +406,15 @@ namespace BIDSHelper
             get { return appObj; }
         }
 
+#if !SQL2016
         public AddIn AddInInstance
         {
             get { return addIn; }
         }
+#endif
+#endregion
 
-        #endregion
-
-        #region "methods that must be overridden"
+#region "methods that must be overridden"
 
         /// <summary>
         /// Gets the short name, the unique internal plug-in name
@@ -454,9 +465,9 @@ namespace BIDSHelper
 
         public abstract bool DisplayCommand(UIHierarchyItem item);
 
-        #endregion
+#endregion
 
-        #region "virtual methods/properties
+#region "virtual methods/properties
 
         public virtual bool ShouldPositionAtEnd
         {
@@ -529,18 +540,18 @@ namespace BIDSHelper
         /// <remarks>If no help is appropriate return null.</remarks>
         public virtual string HelpUrl
         {
-            // Default implementation of Help Url using FriendlyName. 
+            // Default implementation of Help Url using FriendlyName.
             // Override this property if you need a different value
             get { return this.GetCodePlexHelpUrl(this.FeatureName); }
         }
-        #endregion
+#endregion
 
         /// <summary>
         /// Gets the CodePlex help page URL.
         /// </summary>
         /// <param name="wikiTitle">The wiki page title.</param>
         /// <returns>The full help page URL.</returns>
-        /// <remarks>Used by default implementation of HelpUrl, as well as being 
+        /// <remarks>Used by default implementation of HelpUrl, as well as being
         /// available for derived classes that need to override that property.</remarks>
         protected string GetCodePlexHelpUrl(string wikiTitle)
         {
@@ -548,7 +559,7 @@ namespace BIDSHelper
         }
 
         /// <summary>
-        /// Returns a <see cref="System.String"/> that represents this instance. 
+        /// Returns a <see cref="System.String"/> that represents this instance.
         /// </summary>
         /// <returns>
         /// A <see cref="System.String"/> that represents this instance.
@@ -584,7 +595,7 @@ namespace BIDSHelper
             UIHierarchyItem hierItem = ((UIHierarchyItem)((System.Array)solExplorer.SelectedItems).GetValue(0));
             Microsoft.DataWarehouse.VsIntegration.Shell.Project.Extensibility.ProjectExt proj = hierItem.Object as Microsoft.DataWarehouse.VsIntegration.Shell.Project.Extensibility.ProjectExt;
 
-            // if a project is in a folder the UIHierarchy object appears to return a project 
+            // if a project is in a folder the UIHierarchy object appears to return a project
             // wrapped in a ProjectItem so we need to unwrap it to get to the project.
             if (proj == null && hierItem.Object is ProjectItem)
             {

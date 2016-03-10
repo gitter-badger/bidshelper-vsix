@@ -14,7 +14,11 @@ namespace BIDSHelper
         Run = 3
     }
 
-    public class Connect : IDTExtensibility2, IDTCommandTarget
+    public class Connect :
+#if !SQL2016
+        IDTExtensibility2,
+#endif
+        IDTCommandTarget
     {
 
 
@@ -29,8 +33,10 @@ namespace BIDSHelper
             }
         }
 
-        
+#if !SQL2016
+//TODO: VS2015 Addin
         private AddIn _addInInstance;
+#endif
         private DebuggerEvents _debuggerEvents;
         private enumIDEMode _ideMode = enumIDEMode.Design;
 
@@ -62,14 +68,20 @@ namespace BIDSHelper
         ///<param name='addInInst'>Object representing this Add-in.</param>
         ///<param name='custom'>Array containing custom parameters</param>
         ///<remarks></remarks>
+#if SQL2016
+        public void OnConnection(DTE2 application)
+#else
         void IDTExtensibility2.OnConnection(object application, ext_ConnectMode connectMode, object addInInst, ref Array custom)
+#endif
         {
             string sAddInTypeName = string.Empty;
             try
             {
                 _applicationObject = (DTE2)application;
+#if !SQL2016
+//TODO: VS2015 Addin
                 _addInInstance = (AddIn)addInInst;
-
+#endif
                 _applicationObject.StatusBar.Text = "Loading BIDSHelper (" + this.GetType().Assembly.GetName().Version.ToString() + ")...";
 
                 _debuggerEvents = _applicationObject.Events.DebuggerEvents;
@@ -95,9 +107,11 @@ namespace BIDSHelper
                             System.Windows.Forms.MessageBox.Show("Problem loading type " + t.Name + ". No constructor found.");
                             continue;
                         }
+#if !SQL2016
+//TODO: VS2015 Addin
                         ext = (BIDSHelperPluginBase)con.Invoke(new object[] { this, _applicationObject, _addInInstance });
                         addins.Add(ext.CommandName, ext);
-
+#endif
                     }
                 }
 
@@ -107,7 +121,7 @@ namespace BIDSHelper
                 AppDomain currentDomain = AppDomain.CurrentDomain;
                 currentDomain.AssemblyResolve += new ResolveEventHandler(currentDomain_AssemblyResolve);
 #endif
-            
+
             }
             catch (Exception ex)
             {
@@ -181,7 +195,12 @@ namespace BIDSHelper
         ///<param name='disconnectMode'>Describes how the Add-in is being unloaded.</param>
         ///<param name='custom'>Array of parameters that are host application specific.</param>
         ///<remarks></remarks>
+        ///
+#if SQL2016
+        public void OnDisconnect()
+#else
         void IDTExtensibility2.OnDisconnection(ext_DisconnectMode disconnectMode, ref Array custom)
+#endif
         {
             try
             {
@@ -191,22 +210,23 @@ namespace BIDSHelper
                     {
                         if (iExt.Enabled)
                             { iExt.OnDisable(); }
-                        
+
                     }
-                    catch 
+                    catch
                     { //ignore any errors - we are pulling down the add-in anyway
                     }
                 }
                 addins.Clear();
             }
 
-            catch //(Exception ex) 
+            catch //(Exception ex)
             {
                 //MsgBox(ex.ToString)
             }
 
         }
 
+#if !SQL2016
         ///<summary>Implements the OnAddInsUpdate method of the IDTExtensibility2 interface. Receives notification that the collection of Add-ins has changed.</summary>
         ///<param name='custom'>Array of parameters that are host application specific.</param>
         ///<remarks></remarks>
@@ -227,8 +247,7 @@ namespace BIDSHelper
         void IDTExtensibility2.OnBeginShutdown(ref Array custom)
         {
         }
-
-
+#endif
         void EnvDTE.IDTCommandTarget.Exec(string CmdName, EnvDTE.vsCommandExecOption ExecuteOption, ref object VariantIn, ref object VariantOut, ref bool Handled)
         {
             try

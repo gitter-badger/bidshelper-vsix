@@ -9,6 +9,8 @@ using System.ComponentModel.Design;
 using System.Globalization;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
+using EnvDTE;
+using EnvDTE80;
 
 namespace BIDSHelper
 {
@@ -32,6 +34,10 @@ namespace BIDSHelper
         /// </summary>
         private readonly Package package;
 
+        private readonly Connect connect;
+
+        private readonly DTE2 dte2;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="BIDSHelper"/> class.
         /// Adds our command handlers for menu (commands must exist in the command table file)
@@ -45,6 +51,7 @@ namespace BIDSHelper
             }
 
             this.package = package;
+            this.connect = new Connect();
 
             OleMenuCommandService commandService = this.ServiceProvider.GetService(typeof(IMenuCommandService)) as OleMenuCommandService;
             if (commandService != null)
@@ -53,6 +60,11 @@ namespace BIDSHelper
                 var menuItem = new MenuCommand(this.MenuItemCallback, menuCommandID);
                 commandService.AddCommand(menuItem);
             }
+
+
+            dte2 = ServiceProvider.GetService(typeof(DTE)) as DTE2;
+
+            this.connect.OnConnection(dte2);
         }
 
         /// <summary>
