@@ -111,6 +111,9 @@ namespace BIDSHelper
 //TODO: VS2015 Addin
                         ext = (BIDSHelperPluginBase)con.Invoke(new object[] { this, _applicationObject, _addInInstance });
                         addins.Add(ext.CommandName, ext);
+#else
+                        ext = (BIDSHelperPluginBase)con.Invoke(new object[] { this, _applicationObject, null });
+                        addins.Add(ext.CommandName, ext);
 #endif
                     }
                 }

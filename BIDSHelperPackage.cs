@@ -49,7 +49,7 @@ namespace BIDSHelper
         public const string PackageGuidString = "a31e7e26-7ae7-4415-8bbe-977c38a61aa7";
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="BIDSHelper"/> class.
+        /// Initializes a new instance of the <see cref="BIDSHelperStarter"/> class.
         /// </summary>
         public BIDSHelperPackage()
         {
@@ -67,7 +67,7 @@ namespace BIDSHelper
         /// </summary>
         protected override void Initialize()
         {
-            BIDSHelper.Initialize(this);
+            BIDSHelperStarter.Initialize(this);
             base.Initialize();
         }
 

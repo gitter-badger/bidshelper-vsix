@@ -79,7 +79,7 @@ namespace BIDSHelper.SSIS.Biml
             {
                 project = projectItem.ContainingProject;
             }
-            
+
             string projectDirectory = Path.GetDirectoryName(project.FullName);
             try
             {

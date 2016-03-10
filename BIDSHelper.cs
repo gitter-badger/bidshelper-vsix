@@ -17,7 +17,7 @@ namespace BIDSHelper
     /// <summary>
     /// Command handler
     /// </summary>
-    internal sealed class BIDSHelper
+    internal sealed class BIDSHelperStarter
     {
         /// <summary>
         /// Command ID.
@@ -39,11 +39,11 @@ namespace BIDSHelper
         private readonly DTE2 dte2;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="BIDSHelper"/> class.
+        /// Initializes a new instance of the <see cref="BIDSHelperStarter"/> class.
         /// Adds our command handlers for menu (commands must exist in the command table file)
         /// </summary>
         /// <param name="package">Owner package, not null.</param>
-        private BIDSHelper(Package package)
+        private BIDSHelperStarter(Package package)
         {
             if (package == null)
             {
@@ -70,7 +70,7 @@ namespace BIDSHelper
         /// <summary>
         /// Gets the instance of the command.
         /// </summary>
-        public static BIDSHelper Instance
+        public static BIDSHelperStarter Instance
         {
             get;
             private set;
@@ -93,7 +93,7 @@ namespace BIDSHelper
         /// <param name="package">Owner package, not null.</param>
         public static void Initialize(Package package)
         {
-            Instance = new BIDSHelper(package);
+            Instance = new BIDSHelperStarter(package);
         }
 
         /// <summary>
